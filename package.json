@@ -1,0 +1,14 @@
+{
+  "name": "cs2-championship-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bot Discord para gerenciar times de campeonato de CS2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.23.2",
+    "dotenv": "^17.2.3"
+  }
+}

@@ -1,0 +1,28 @@
+# ====================================
+# CS2 CHAMPIONSHIP BOT - CONFIGURAÇÃO
+# ====================================
+#
+# INSTRUÇÕES:
+# 1. Copie o conteúdo deste arquivo
+# 2. Crie um novo arquivo chamado .env (com ponto no início)
+# 3. Cole o conteúdo e preencha os valores
+# 4. Salve o arquivo
+#
+# IMPORTANTE: O arquivo deve se chamar exatamente: .env
+
+TOKEN=SEU_TOKEN_AQUI
+CLIENT_ID=SEU_CLIENT_ID_AQUI
+GUILD_ID=SEU_GUILD_ID_AQUI
+
+# ====================================
+# COMO OBTER O TOKEN:
+# ====================================
+# 1. Acesse: https://discord.com/developers/applications
+# 2. Clique na sua aplicação
+# 3. Vá em "Bot" no menu lateral
+# 4. Clique em "Reset Token"
+# 5. COPIE O TOKEN (ele só aparece uma vez!)
+# 6. Cole aqui substituindo SEU_TOKEN_AQUI
+#
+# O token tem este formato:
+
