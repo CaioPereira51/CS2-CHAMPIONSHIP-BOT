@@ -18,51 +18,29 @@ for (const file of commandFiles) {
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 const commandsData = client.commands.map(cmd => cmd.data.toJSON());
 
+// Suporta múltiplos servidores separados por vírgula no .env
+const guildIds = process.env.GUILD_IDS?.split(",") || [];
+
 try {
   console.log("⏳ Registrando comandos no Discord...");
-  await rest.put(
-    Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
-    { body: commandsData }
-  );
-  console.log("✅ Comandos registrados com sucesso!");
+
+  if (guildIds.length > 0) {
+    for (const guildId of guildIds) {
+      await rest.put(
+        Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId.trim()),
+        { body: commandsData }
+      );
+      console.log(`✅ Comandos registrados no servidor ${guildId}`);
+    }
+  } else {
+    await rest.put(
+      Routes.applicationCommands(process.env.CLIENT_ID),
+      { body: commandsData }
+    );
+    console.log("✅ Comandos registrados globalmente!");
+  }
 } catch (error) {
   console.error("Erro ao registrar comandos:", error);
 }
-
-// Evento de quando o bot está online
-client.once("ready", () => {
-  console.log(`✅ Bot conectado como ${client.user.tag}`);
-  console.log(`📊 Comandos disponíveis: ${client.commands.size}`);
-  console.log(`🎮 Pronto para gerenciar o campeonato de CS2!`);
-});
-
-// Evento que trata os comandos e autocomplete
-client.on("interactionCreate", async (interaction) => {
-  // Lidar com autocomplete
-  if (interaction.isAutocomplete()) {
-    const command = client.commands.get(interaction.commandName);
-    if (!command || !command.autocomplete) return;
-
-    try {
-      await command.autocomplete(interaction);
-    } catch (error) {
-      console.error("Erro no autocomplete:", error);
-    }
-    return;
-  }
-
-  // Lidar com comandos
-  if (!interaction.isChatInputCommand()) return;
-
-  const command = client.commands.get(interaction.commandName);
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({ content: "❌ Ocorreu um erro ao executar este comando!", ephemeral: true });
-  }
-});
 
 client.login(process.env.TOKEN);
